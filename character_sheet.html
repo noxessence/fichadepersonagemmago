@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Personagem - Pós-Apocalíptico</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: #ecf0f1;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .sheet {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #1a252f;
+            border: 2px solid #e74c3c;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-size: 28px;
+            color: #e74c3c;
+            text-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #95a5a6;
+            font-size: 14px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            border: 1px solid #34495e;
+            border-radius: 8px;
+            padding: 15px;
+            background: #16202b;
+        }
+        
+        .section-title {
+            color: #e74c3c;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e74c3c;
+            padding-bottom: 5px;
+        }
+        
+        .row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .field {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .field.half {
+            flex: 0 1 48%;
+        }
+        
+        .field.third {
+            flex: 0 1 32%;
+        }
+        
+        .field.quarter {
+            flex: 0 1 23%;
+        }
+        
+        label {
+            display: block;
+            color: #bdc3c7;
+            font-size: 12px;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+        
+        input[type="text"], input[type="number"], textarea, select {
+            width: 100%;
+            padding: 8px;
+            background: #2c3e50;
+            border: 1px solid #34495e;
+            color: #ecf0f1;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
+            border-color: #e74c3c;
+            outline: none;
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+        }
+        
+        .ability-scores {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .ability {
+            text-align: center;
+            background: #2c3e50;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #34495e;
+        }
+        
+        .ability-name {
+            color: #e74c3c;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .ability-score {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .ability-modifier {
+            font-size: 14px;
+            color: #95a5a6;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
+        }
+        
+        .skill {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 0;
+        }
+        
+        .skill input[type="checkbox"] {
+            width: 15px;
+            height: 15px;
+        }
+        
+        .combat-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        
+        .stat-box {
+            text-align: center;
+            background: #2c3e50;
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #34495e;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #bdc3c7;
+        }
+        
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .inventory-section {
+            background: #2c3e50;
+            border-radius: 6px;
+            padding: 10px;
+        }
+        
+        .inventory-title {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .equipment-list {
+            list-style: none;
+            font-size: 12px;
+        }
+        
+        .equipment-list li {
+            padding: 2px 0;
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .radiation-meter {
+            background: #2c3e50;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .radiation-levels {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        
+        .radiation-level {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e74c3c;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .radiation-level.active {
+            background: #e74c3c;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
+        }
+        
+        .mutations-list {
+            background: #2c3e50;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .notes-section {
+            grid-column: 1 / -1;
+        }
+        
+        @media (max-width: 768px) {
+            .ability-scores {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .combat-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .inventory-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .field.half, .field.third, .field.quarter {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sheet">
+        <div class="header">
+            <h1 class="title">SOBREVIVENTE PÓS-APOCALÍPTICO</h1>
+            <p class="subtitle">Ficha de Personagem D&D 5e - Domo 7 "Esperança Perdida"</p>
+        </div>
+
+        <!-- Informações Básicas -->
+        <div class="section">
+            <h2 class="section-title">Informações Básicas</h2>
+            <div class="row">
+                <div class="field">
+                    <label>Nome do Personagem</label>
+                    <input type="text" id="characterName">
+                </div>
+                <div class="field third">
+                    <label>Nível</label>
+                    <input type="number" id="level" value="1" min="1" max="20">
+                </div>
+                <div class="field third">
+                    <label>Classe</label>
+                    <select id="class">
+                        <option>Selecionar...</option>
+                        <option>Bárbaro (Sobrevivente Selvagem)</option>
+                        <option>Guerreiro (Veterano da Guarda)</option>
+                        <option>Ladino (Explorador/Batedor)</option>
+                        <option>Ranger (Caçador de Mutantes)</option>
+                        <option>Artificer (Técnico do Domo)</option>
+                        <option>Clérigo (Curandeiro/Médico)</option>
+                        <option>Druida (Místico das Mutações)</option>
+                        <option>Feiticeiro (Mutante Psíquico)</option>
+                    </select>
+                </div>
+                <div class="field third">
+                    <label>Antecedente</label>
+                    <select id="background">
+                        <option>Selecionar...</option>
+                        <option>Filho do Domo (Nativo)</option>
+                        <option>Refugiado (Outro Domo)</option>
+                        <option>Ex-Explorador</option>
+                        <option>Técnico Especialista</option>
+                        <option>Marginalizado</option>
+                        <option>Descendente Militar</option>
+                        <option>Pesquisador</option>
+                        <option>Comerciante do Mercado Negro</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="field quarter">
+                    <label>Setor do Domo</label>
+                    <select id="sector">
+                        <option>Níveis 1-2 (Elite)</option>
+                        <option>Níveis 3-4 (Serviços)</option>
+                        <option>Níveis 5-7 (Residencial)</option>
+                        <option>Níveis 8-10 (Industrial)</option>
+                        <option>Níveis 11-12 (Marginal)</option>
+                    </select>
+                </div>
+                <div class="field quarter">
+                    <label>Idade</label>
+                    <input type="number" id="age" min="16" max="80">
+                </div>
+                <div class="field quarter">
+                    <label>Altura</label>
+                    <input type="text" id="height" placeholder="Ex: 1,75m">
+                </div>
+                <div class="field quarter">
+                    <label>Peso</label>
+                    <input type="text" id="weight" placeholder="Ex: 70kg">
+                </div>
+            </div>
+        </div>
+
+        <!-- Atributos -->
+        <div class="section">
+            <h2 class="section-title">Atributos</h2>
+            <div class="ability-scores">
+                <div class="ability">
+                    <div class="ability-name">FORÇA</div>
+                    <input type="number" class="ability-score" id="str" min="1" max="20" value="10">
+                    <div class="ability-modifier" id="str-mod">+0</div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">DESTREZA</div>
+                    <input type="number" class="ability-score" id="dex" min="1" max="20" value="10">
+                    <div class="ability-modifier" id="dex-mod">+0</div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">CONSTITUIÇÃO</div>
+                    <input type="number" class="ability-score" id="con" min="1" max="20" value="10">
+                    <div class="ability-modifier" id="con-mod">+0</div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">INTELIGÊNCIA</div>
+                    <input type="number" class="ability-score" id="int" min="1" max="20" value="10">
+                    <div class="ability-modifier" id="int-mod">+0</div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">SABEDORIA</div>
+                    <input type="number" class="ability-score" id="wis" min="1" max="20" value="10">
+                    <div class="ability-modifier" id="wis-mod">+0</div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">CARISMA</div>
+                    <input type="number" class="ability-score" id="cha" min="1" max="20" value="10">
+                    <div class="ability-modifier" id="cha-mod">+0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estatísticas de Combate -->
+        <div class="section">
+            <h2 class="section-title">Estatísticas de Combate</h2>
+            <div class="combat-stats">
+                <div class="stat-box">
+                    <input type="number" class="stat-value" id="hp-current" placeholder="Atual">
+                    <div class="stat-label">PV ATUAIS</div>
+                </div>
+                <div class="stat-box">
+                    <input type="number" class="stat-value" id="hp-max" placeholder="Máximo">
+                    <div class="stat-label">PV MÁXIMOS</div>
+                </div>
+                <div class="stat-box">
+                    <input type="number" class="stat-value" id="ac" placeholder="CA">
+                    <div class="stat-label">CLASSE ARMADURA</div>
+                </div>
+                <div class="stat-box">
+                    <input type="text" class="stat-value" id="speed" placeholder="9m" style="font-size: 18px;">
+                    <div class="stat-label">VELOCIDADE</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="field third">
+                    <label>Bônus de Proficiência</label>
+                    <input type="text" id="proficiency" placeholder="+2">
+                </div>
+                <div class="field third">
+                    <label>Iniciativa</label>
+                    <input type="text" id="initiative" placeholder="+0">
+                </div>
+                <div class="field third">
+                    <label>Percepção Passiva</label>
+                    <input type="number" id="passive-perception" placeholder="10">
+                </div>
+            </div>
+        </div>
+
+        <!-- Perícias Especializadas -->
+        <div class="section">
+            <h2 class="section-title">Perícias (Marque as Proficientes)</h2>
+            <div class="skills-grid">
+                <div class="skill">
+                    <input type="checkbox" id="acrobatics">
+                    <label for="acrobatics">Acrobacia (Des)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="animal-handling">
+                    <label for="animal-handling">Adestrar Animais (Sab)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="arcana">
+                    <label for="arcana">Arcanismo (Int)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="athletics">
+                    <label for="athletics">Atletismo (For)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="deception">
+                    <label for="deception">Enganação (Car)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="history">
+                    <label for="history">História (Int)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="insight">
+                    <label for="insight">Intuição (Sab)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="intimidation">
+                    <label for="intimidation">Intimidação (Car)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="investigation">
+                    <label for="investigation">Investigação (Int)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="medicine">
+                    <label for="medicine">Medicina (Sab)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="nature">
+                    <label for="nature">Natureza (Int)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="perception">
+                    <label for="perception">Percepção (Sab)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="performance">
+                    <label for="performance">Atuação (Car)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="persuasion">
+                    <label for="persuasion">Persuasão (Car)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="religion">
+                    <label for="religion">Religião (Int)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="sleight-of-hand">
+                    <label for="sleight-of-hand">Prestidigitação (Des)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="stealth">
+                    <label for="stealth">Furtividade (Des)</label>
+                </div>
+                <div class="skill">
+                    <input type="checkbox" id="survival">
+                    <label for="survival">Sobrevivência (Sab)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sistema de Radiação e Mutações -->
+        <div class="section">
+            <h2 class="section-title">Exposição à Radiação & Mutações</h2>
+            <div class="row">
+                <div class="field half">
+                    <div class="radiation-meter">
+                        <label>Nível de Radiação Atual</label>
+                        <div class="radiation-levels">
+                            <div class="radiation-level" data-level="0" title="Limpo"></div>
+                            <div class="radiation-level" data-level="1" title="Leve"></div>
+                            <div class="radiation-level" data-level="2" title="Moderada"></div>
+                            <div class="radiation-level" data-level="3" title="Alta"></div>
+                            <div class="radiation-level" data-level="4" title="Extrema"></div>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <label>Nível de Exaustão por Radiação</label>
+                            <input type="number" min="0" max="6" value="0" id="rad-exhaustion">
+                        </div>
+                    </div>
+                </div>
+                <div class="field half">
+                    <label>Mutações Adquiridas</label>
+                    <div class="mutations-list">
+                        <textarea id="mutations" placeholder="Liste suas mutações e seus efeitos...&#10;Ex: Olhos vermelhos (+1 Percepção)&#10;Ex: Pele escamosa (+1 CA natural)"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Equipamentos e Inventário -->
+        <div class="section">
+            <h2 class="section-title">Equipamentos & Inventário</h2>
+            <div class="inventory-grid">
+                <div class="inventory-section">
+                    <h3 class="inventory-title">ARMAS</h3>
+                    <ul class="equipment-list">
+                        <li><input type="text" placeholder="Nome da arma"></li>
+                        <li><input type="text" placeholder="Dano + propriedades"></li>
+                        <li><input type="text" placeholder="Munição restante"></li>
+                        <li><input type="text" placeholder="Arma secundária"></li>
+                    </ul>
+                </div>
+                <div class="inventory-section">
+                    <h3 class="inventory-title">ARMADURA</h3>
+                    <ul class="equipment-list">
+                        <li><input type="text" placeholder="Tipo de armadura"></li>
+                        <li><input type="text" placeholder="CA base"></li>
+                        <li><input type="text" placeholder="Propriedades especiais"></li>
+                        <li><input type="text" placeholder="Condição atual"></li>
+                    </ul>
+                </div>
+                <div class="inventory-section">
+                    <h3 class="inventory-title">SUPRIMENTOS</h3>
+                    <ul class="equipment-list">
+                        <li><input type="text" placeholder="Rações (dias)"></li>
+                        <li><input type="text" placeholder="Água (litros)"></li>
+                        <li><input type="text" placeholder="Kit médico (usos)"></li>
+                        <li><input type="text" placeholder="Detector radiação"></li>
+                        <li><input type="text" placeholder="Outros equipamentos"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 15px;">
+                <div class="field third">
+                    <label>Créditos do Domo</label>
+                    <input type="number" id="credits" min="0" placeholder="0">
+                </div>
+                <div class="field third">
+                    <label>Sucata Valiosa</label>
+                    <input type="text" id="scrap" placeholder="Ex: 15kg de metal">
+                </div>
+                <div class="field third">
+                    <label>Carga Atual/Máxima</label>
+                    <input type="text" id="encumbrance" placeholder="Ex: 45/60kg">
+                </div>
+            </div>
+        </div>
+
+        <!-- Características e Traços -->
+        <div class="section">
+            <h2 class="section-title">Características de Classe & Antecedente</h2>
+            <div class="row">
+                <div class="field half">
+                    <label>Características de Classe</label>
+                    <textarea id="class-features" placeholder="Liste suas características de classe...&#10;Ex: Fúria (2/dia)&#10;Ex: Ataque Extra&#10;Ex: Ação Ardilosa"></textarea>
+                </div>
+                <div class="field half">
+                    <label>Traços de Antecedente</label>
+                    <textarea id="background-traits" placeholder="Traços específicos do seu antecedente...&#10;Ex: Conhece os túneis secretos&#10;Ex: Contatos no mercado negro&#10;Ex: Acesso restrito a áreas técnicas"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- História e Personalidade -->
+        <div class="section">
+            <h2 class="section-title">História & Personalidade</h2>
+            <div class="row">
+                <div class="field half">
+                    <label>Traços de Personalidade</label>
+                    <textarea id="personality" placeholder="Como seu personagem age e pensa?"></textarea>
+                </div>
+                <div class="field half">
+                    <label>Ideais</label>
+                    <textarea id="ideals" placeholder="No que seu personagem acredita?"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="field half">
+                    <label>Vínculos</label>
+                    <textarea id="bonds" placeholder="O que é importante para seu personagem?"></textarea>
+                </div>
+                <div class="field half">
+                    <label>Defeitos</label>
+                    <textarea id="flaws" placeholder="Quais são as fraquezas do seu personagem?"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <label>História Pessoal</label>
+                    <textarea id="backstory" placeholder="Conte a história do seu personagem... Como vivia no domo? Qual sua função? O que o motiva a se aventurar no exterior?"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Anotações -->
+        <div class="section">
+            <h2 class="section-title">Anotações de Sessão</h2>
+            <div class="row">
+                <div class="field notes-section">
+                    <label>Anotações Gerais</label>
+                    <textarea id="notes" placeholder="Anote informações importantes sobre a sessão, NPCs encontrados, locais visitados, pistas descobertas..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Calcular modificadores de atributos
+        function updateModifier(abilityId) {
+            const score = parseInt(document.getElementById(abilityId).value) || 10;
+            const modifier = Math.floor((score - 10) / 2);
+            const modString = modifier >= 0 ? `+${modifier}` : `${modifier}`;
+            document.getElementById(`${abilityId}-mod`).textContent = modString;
+        }
+
+        // Sistema de radiação
+        document.querySelectorAll('.radiation-level').forEach((level, index) => {
+            level.addEventListener('click', function() {
+                const levelValue = parseInt(this.dataset.level);
+                
+                // Remove active de todos
+                document.querySelectorAll('.radiation-level').forEach(l => l.classList.remove('active'));
+                
+                // Adiciona active até o nível clicado
+                for (let i = 0; i <= levelValue; i++) {
+                    document.querySelector(`[data-level="${i}"]`).classList.add('active');
+                }
+            });
+        });
+
+        // Listeners para atualizar modificadores
+        ['str', 'dex', 'con', 'int', 'wis', 'cha'].forEach(ability => {
+            document.getElementById(ability).addEventListener('input', () => updateModifier(ability));
+            updateModifier(ability); // Inicializar
+        });
+
+        // Salvar dados localmente
+        function saveData() {
+            const data = {};
+            document.querySelectorAll('input, select, textarea').forEach(element => {
+                if (element.id) {
+                    data[element.id] = element.type === 'checkbox' ? element.checked : element.value;
+                }
+            });
+            
+            // Salvar nível de radiação
+            const activeRadiation = document.querySelectorAll('.radiation-level.active').length - 1;
+            data.radiationLevel = Math.max(0, activeRadiation);
+            
+            // Usar variável local ao invés de localStorage
+            window.characterData = data;
+        }
+
+        function loadData() {
+            if (window.characterData) {
+                Object.keys(window.characterData).forEach(key => {
+                    if (key === 'radiationLevel') {
+                        // Restaurar nível de radiação
+                        const level = window.characterData[key];
+                        document.querySelectorAll('.radiation-level').forEach(l => l.classList.remove('active'));
+                        for (let i = 0; i <= level; i++) {
+                            const element = document.querySelector(`[data-level="${i}"]`);
+                            if (element) element.classList.add('active');
+                        }
+                    } else {
+                        const element = document.getElementById(key);
+                        if (element) {
+                            if (element.type === 'checkbox') {
+                                element.checked = window.characterData[key];
+                            } else {
+                                element.value = window.characterData[key];
+                            }
+                        }
+                    }
+                });
+                
+                // Atualizar modificadores após carregar
+                ['str', 'dex', 'con', 'int', 'wis', 'cha'].forEach(updateModifier);
+            }
+        }
+
+        // Auto-save a cada mudança
+        document.addEventListener('input', saveData);
+        document.addEventListener('change', saveData);
+
+        // Carregar dados ao inicializar
+        loadData();
+    </script>
+</body>
+</html>
